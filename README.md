@@ -1,3 +1,7 @@
+[![Build Status](https://travis-ci.org/moemoe89/integration-test-golang.svg?branch=master)](https://travis-ci.org/moemoe89/integration-test-golang)
+[![codecov](https://codecov.io/gh/moemoe89/integration-test-golang/branch/master/graph/badge.svg)](https://codecov.io/gh/moemoe89/integration-test-golang)
+[![Go Report Card](https://goreportcard.com/badge/github.com/moemoe89/integration-test-golang)](https://goreportcard.com/report/github.com/moemoe89/integration-test-golang)
+
 # INTEGRATION-TEST-GOLANG #
 
 Example integration test using Dockertest
@@ -13,6 +17,8 @@ Your project directory structure should look like this
   |     |
   |     +--+ main.go
   |        + repository/
+  |        |
+  |        +--+ repository.go
   |        |
   |        +--+ mysql
   |        |  |
