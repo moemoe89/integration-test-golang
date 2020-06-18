@@ -62,10 +62,7 @@ func (r *repository) Up() error {
 	defer stmt.Close()
 
 	_, err = stmt.ExecContext(ctx)
-	if err != nil {
-		return err
-	}
-	return nil
+	return err
 }
 
 // Drop attaches the provider and drop the table
@@ -80,10 +77,7 @@ func (r *repository) Drop() error {
 	defer stmt.Close()
 
 	_, err = stmt.ExecContext(ctx)
-	if err != nil {
-		return err
-	}
-	return nil
+	return err
 }
 
 // FindByID attaches the user repository and find data based on id
@@ -144,7 +138,7 @@ func (r *repository) Create(user *repo.UserModel) error {
 	defer stmt.Close()
 
 	_, err = stmt.ExecContext(ctx, user.ID, user.Name, user.Email, user.Phone)
-	return nil
+	return err
 }
 
 // Update attaches the user repository and update data based on id
@@ -160,7 +154,7 @@ func (r *repository) Update(user *repo.UserModel) error {
 	defer stmt.Close()
 
 	_, err = stmt.ExecContext(ctx, user.Name, user.Email, user.Phone, user.ID)
-	return nil
+	return err
 }
 
 // Delete attaches the user repository and delete data based on id
@@ -176,5 +170,5 @@ func (r *repository) Delete(id string) error {
 	defer stmt.Close()
 
 	_, err = stmt.ExecContext(ctx, id)
-	return nil
+	return err
 }
