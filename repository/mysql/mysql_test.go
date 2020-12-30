@@ -16,8 +16,8 @@ import (
 	"github.com/moemoe89/integration-test-golang/repository/mysql"
 
 	"github.com/google/uuid"
-	"github.com/ory/dockertest"
-	"github.com/ory/dockertest/docker"
+	"github.com/ory/dockertest/v3"
+	"github.com/ory/dockertest/v3/docker"
 	"github.com/stretchr/testify/assert"
 )
 
@@ -36,7 +36,7 @@ var (
 	user     = "docker"
 	password = "secret"
 	db       = "user"
-	port     = "3307"
+	port     = "3308"
 	dialect  = "mysql"
 	dsn      = "%s:%s@tcp(localhost:%s)/%s"
 	idleConn = 25

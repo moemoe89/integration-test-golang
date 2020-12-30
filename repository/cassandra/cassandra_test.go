@@ -4,18 +4,18 @@
 //  Copyright © 2020. All rights reserved.
 //
 
-package postgres_test
+package cassandra_test
 
 import (
-	"fmt"
 	"log"
 	"os"
+	"strconv"
 	"testing"
 
 	r "github.com/moemoe89/integration-test-golang/repository"
-	"github.com/moemoe89/integration-test-golang/repository/postgres"
+	"github.com/moemoe89/integration-test-golang/repository/cassandra"
 
-	"github.com/google/uuid"
+	"github.com/gocql/gocql"
 	"github.com/ory/dockertest/v3"
 	"github.com/ory/dockertest/v3/docker"
 	"github.com/stretchr/testify/assert"
@@ -26,21 +26,17 @@ var (
 )
 
 var u = &r.UserModel{
-	ID:    uuid.New().String(),
+	ID:    gocql.TimeUUID().String(),
 	Name:  "Momo",
 	Email: "momo@mail.com",
 	Phone: "08123456789",
 }
 
 var (
-	user     = "postgres"
-	password = "secret"
-	db       = "postgres"
-	port     = "5433"
-	dialect  = "postgres"
-	dsn      = "postgres://%s:%s@localhost:%s/%s?sslmode=disable"
-	idleConn = 25
-	maxConn  = 25
+	addr     = "localhost"
+	port     = 9042
+	username = "cassandra"
+	password = "cassandra"
 )
 
 func TestMain(m *testing.M) {
@@ -50,17 +46,12 @@ func TestMain(m *testing.M) {
 	}
 
 	opts := dockertest.RunOptions{
-		Repository: "postgres",
-		Tag:        "12.3",
-		Env: []string{
-			"POSTGRES_USER=" + user,
-			"POSTGRES_PASSWORD=" + password,
-			"POSTGRES_DB=" + db,
-		},
-		ExposedPorts: []string{"5432"},
+		Repository:   "bitnami/cassandra",
+		Tag:          "latest",
+		ExposedPorts: []string{"9042"},
 		PortBindings: map[docker.Port][]docker.PortBinding{
-			"5432": {
-				{HostIP: "0.0.0.0", HostPort: port},
+			"9042": {
+				{HostIP: "0.0.0.0", HostPort: strconv.Itoa(port)},
 			},
 		},
 	}
@@ -70,9 +61,8 @@ func TestMain(m *testing.M) {
 		log.Fatalf("Could not start resource: %s", err.Error())
 	}
 
-	dsn = fmt.Sprintf(dsn, user, password, port, db)
 	if err = pool.Retry(func() error {
-		repo, err = postgres.NewRepository(dialect, dsn, idleConn, maxConn)
+		repo, err = cassandra.NewRepository(addr, port, username, password)
 		return err
 	}); err != nil {
 		log.Fatalf("Could not connect to docker: %s", err.Error())
@@ -132,3 +122,4 @@ func TestDelete(t *testing.T) {
 	err := repo.Delete(u.ID)
 	assert.NoError(t, err)
 }
+

@@ -20,6 +20,10 @@ Your project directory structure should look like this
   |        |
   |        +--+ repository.go
   |        |
+  |        +--+ cassandra
+  |        |  |
+  |        |  +--+ cassandra.go
+  |        |     + cassandra_test.go
   |        +--+ mysql
   |        |  |
   |        |  +--+ mysql.go
@@ -55,6 +59,10 @@ $ mv <cloned directory> integration-test-golang
 ## How to Run Test
 ```
 $ go test ./...
+```
+or
+```
+$ make test
 ```
 
 ## License
