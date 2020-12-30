@@ -50,7 +50,7 @@ func TestMain(m *testing.M) {
 	}
 
 	opts := dockertest.RunOptions{
-		Repository: "mysql",
+		Repository: "bitnami/mysql",
 		Tag:        "5.7",
 		Env: []string{
 			"MYSQL_ROOT_PASSWORD=root",
